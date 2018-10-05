@@ -42,6 +42,13 @@
     </div>
 
     <div class="row">
+
+        <h4 class="text-right w-100">Net Gain:
+            <span class="{{App\Data::cssClass(App\Data::totalGain())}}">
+                {{App\Data::formateTotalGain()}}
+            </span>
+        </h4>
+
         <canvas id="chart"></canvas>
 
         <table class="table">
@@ -55,7 +62,7 @@
             </thead>
             <tbody>
             @foreach($stats as $stat)
-                <tr>
+                <tr class="{{App\Data::cssClass($stat->net_gain)}}">
                     <td>{{$stat->formatDate()}}</td>
                     <td>{{$stat->formatBankRole()}}</td>
                     <td>{{$stat->formatWinnings()}}</td>

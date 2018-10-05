@@ -19,20 +19,34 @@ class Data extends Model
     }
 
     public function formatBankRole() {
-        return $this->_toDollar($this->bank_role);
+        return self::_toDollar($this->bank_role);
     }
 
     public function formatWinnings() {
-        return $this->_toDollar($this->winnings);
+        return self::_toDollar($this->winnings);
     }
 
     public function formatNetGain() {
-        return $this->_toDollar($this->net_gain);
+        return self::_toDollar($this->net_gain);
     }
 
-    private function _toDollar($number) {
+    public static function cssClass($number, $posClass = 'text-success', $negClass = 'text-danger') {
+        return (self::isGain($number)) ? $posClass : $negClass;
+    }
+
+    public static function totalGain() {
+        return self::all()->sum('net_gain');
+    }
+
+    public static function formateTotalGain() {
+        return self::_toDollar(self::totalGain());
+    }
+
+    public static function isGain($number) {
+        return $number > 0;
+    }
+
+    private static function _toDollar($number) {
         return '$' . number_format($number, 2);
     }
-
-
 }
