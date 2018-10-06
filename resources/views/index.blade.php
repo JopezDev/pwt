@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1 class="display-1 text-center"> Poker Tracker </h1>
+    <h1 class="display-3 text-center"> Poker Tracker </h1>
 
     <div class="row">
         <div class="col col-sm-4 offset-sm-4">
@@ -42,35 +42,46 @@
     </div>
 
     <div class="row">
-
-        <h4 class="text-right w-100">Net Gain:
-            <span class="{{App\Data::cssClass(App\Data::totalGain())}}">
+        <div class="col">
+            <h4 class="text-right w-100">Net Gain:
+                <span class="{{App\Data::cssClass(App\Data::totalGain())}}">
                 {{App\Data::formatTotalGain()}}
             </span>
-        </h4>
+            </h4>
+        </div>
+    </div>
 
-        <canvas id="chart"></canvas>
+    <div class="row">
+        <div class="col">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Bank Role</th>
-                <th>Winnings</th>
-                <th>Net Gain</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($stats as $stat)
-                <tr class="{{App\Data::cssClass($stat->net_gain)}}">
-                    <td>{{$stat->formatDate()}}</td>
-                    <td>{{$stat->formatBankRole()}}</td>
-                    <td>{{$stat->formatWinnings()}}</td>
-                    <td>{{$stat->formatNetGain()}}</td>
+    <div class="row">
+        <div class="col">
+            <div class="pt-4">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Bank Role</th>
+                    <th>Winnings</th>
+                    <th>Net Gain</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                @foreach($stats as $stat)
+                    <tr class="{{App\Data::cssClass($stat->net_gain)}}">
+                        <td>{{$stat->formatDate()}}</td>
+                        <td>{{$stat->formatBankRole()}}</td>
+                        <td>{{$stat->formatWinnings()}}</td>
+                        <td>{{$stat->formatNetGain()}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            </div>
+        </div>
     </div>
 @stop

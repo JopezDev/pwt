@@ -13,7 +13,7 @@ class AppController extends Controller
         $date->timezone = 'America/New_York';
 
         $stats      = Data::all()->sortBy('date');
-        $todayStats = Data::whereRaw("date like '{$date->format('Y-m-d')}%'")->first();
+        $todayStats = Data::whereRaw("date like '{$date->format('Y-m-d')}%'")->get()->last();
 
         return view('index', compact('stats', 'todayStats'));
     }
@@ -48,14 +48,7 @@ class AppController extends Controller
     }
 
     public function debug() {
-        $temp = [];
-        Data::all()->each(function($stat) use (&$temp) {
-            $temp[$stat->date->format('Ymd')][] = $stat->net_gain;
-        });
-
-        $sum = 0;
-        foreach($temp as $dateGroup)
-            $sum += array_sum($dateGroup);
+        // debug stuff here
     }
 }
 
