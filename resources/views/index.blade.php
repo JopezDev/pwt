@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1 class="display-3 text-center"> Poker Tracker </h1>
+    <h1 class="display-4 text-center"> Poker Tracker </h1>
 
     <div class="row">
         <div class="col col-sm-4 offset-sm-4">
@@ -61,7 +61,7 @@
         <div class="col">
             <div class="pt-4">
 
-            <table class="table">
+            <table class="table table-condensed" style="font-size: 12px;">
                 <thead>
                 <tr>
                     <th>Date</th>

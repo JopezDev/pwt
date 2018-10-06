@@ -15,7 +15,7 @@ class Data extends Model
     ];
 
     public function formatDate() {
-        return $this->date->format('M d, Y H:i:s');
+        return $this->date->format('m/d/y H:i');
     }
 
     public function formatBankRole() {
