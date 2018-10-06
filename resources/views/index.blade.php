@@ -45,7 +45,7 @@
 
         <h4 class="text-right w-100">Net Gain:
             <span class="{{App\Data::cssClass(App\Data::totalGain())}}">
-                {{App\Data::formateTotalGain()}}
+                {{App\Data::formatTotalGain()}}
             </span>
         </h4>
 

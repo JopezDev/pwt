@@ -15,7 +15,7 @@ class Data extends Model
     ];
 
     public function formatDate() {
-        return $this->date->format('F d, Y');
+        return $this->date->format('F d, Y H:i:s');
     }
 
     public function formatBankRole() {
@@ -35,10 +35,19 @@ class Data extends Model
     }
 
     public static function totalGain() {
-        return self::all()->sum('net_gain');
+        $temp = [];
+        self::all()->each(function($stat) use (&$temp) {
+            $temp[$stat->date->format('Ymd')][] = $stat->net_gain;
+        });
+
+        $sum = 0;
+        foreach($temp as $dateGroup)
+            $sum += array_sum($dateGroup);
+
+        return $sum;
     }
 
-    public static function formateTotalGain() {
+    public static function formatTotalGain() {
         return self::_toDollar(self::totalGain());
     }
 

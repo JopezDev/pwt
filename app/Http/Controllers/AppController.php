@@ -9,19 +9,21 @@ use Illuminate\Http\Request;
 class AppController extends Controller
 {
     public function index() {
+        $date           = Carbon::now();
+        $date->timezone = 'America/New_York';
+
         $stats      = Data::all()->sortBy('date');
-        $todayStats = Data::where('date', Carbon::now()->format('Y-m-d'))->first();
+        $todayStats = Data::whereRaw("date like '{$date->format('Y-m-d')}%'")->first();
 
         return view('index', compact('stats', 'todayStats'));
     }
 
     public function store(Request $req) {
-        $date = Carbon::now()->format('Y-m-d');
+        $date           = Carbon::now();
+        $date->timezone = 'America/New_York';
 
-        if(!$data = Data::where('date', $date)->first())
-            $data = new Data;
-
-        $data->date      = Carbon::now();
+        $data            = new Data;
+        $data->date      = $date;
         $data->bank_role = $req->get('bank_role');
         $data->winnings  = $req->get('winnings');
         $data->net_gain  = $req->get('winnings') - $req->get('bank_role');
@@ -31,9 +33,9 @@ class AppController extends Controller
     }
 
     public function data() {
-        $rawStats = Data::all()->sortByDesc('date');
+        $rawStats = Data::all()->sortBy('date');
         $labels   = $rawStats->pluck('date')->map(function($datum) {
-            return $datum->format('m/d/y');
+            return $datum->format('m/d/y H:i:s');
         });
         $stats    = $rawStats->pluck('net_gain');
 
@@ -46,15 +48,14 @@ class AppController extends Controller
     }
 
     public function debug() {
-        $fromDate = '2015-01-01';
-        $toDate   = '2018-12-31';
+        $temp = [];
+        Data::all()->each(function($stat) use (&$temp) {
+            $temp[$stat->date->format('Ymd')][] = $stat->net_gain;
+        });
 
-        $startDate = Carbon::parse($fromDate)->next(Carbon::FRIDAY); // Get the first friday.
-        $endDate   = Carbon::parse($toDate);
-
-        for($date = $startDate; $date->lte($endDate); $date->addWeek()) {
-            $fridays[] = $date->format('Y-m-d');
-        }
+        $sum = 0;
+        foreach($temp as $dateGroup)
+            $sum += array_sum($dateGroup);
     }
 }
 

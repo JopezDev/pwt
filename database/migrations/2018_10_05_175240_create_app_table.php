@@ -14,7 +14,7 @@ class CreateAppTable extends Migration
     public function up() {
         Schema::create('app', function(Blueprint $table) {
             $table->increments('id');
-            $table->date('date');
+            $table->dateTime('date');
             $table->integer('bank_role');
             $table->integer('winnings');
             $table->integer('net_gain');
